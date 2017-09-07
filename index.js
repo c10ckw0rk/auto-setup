@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config({ path: `${__dirname}/.env` });
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const jira = require('./lib/jira');
 const clear = require('clear');
@@ -54,7 +54,6 @@ const questions = [
         type: 'input',
         default: '',
         message: 'Whats the description?'
-
     }
 ];
 
