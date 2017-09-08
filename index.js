@@ -19,7 +19,7 @@ const questions = [
     {
         name: 'assignee',
         type: 'input',
-        message: 'Whose the assignee?',
+        message: 'Who is the assignee?',
         default: process.env.USERNAME,
         validate: function (value) {
             if (value.length) {
@@ -54,12 +54,12 @@ const questions = [
     }
 ];
 
-inquirer.prompt(questions).then(responses => {
-    jira.create(responses)
+inquirer.prompt(questions).then(answers => {
+    jira.create(answers)
         .then(response => {
 
-            const branchPrefix = responses.type === 'Bug' ? 'fix' : 'feature';
-            const branchName = `${branchPrefix}/${response.key}_${utils.branchName(responses.summary)}`;
+            const branchPrefix = answers.type === 'Bug' ? 'fix' : 'feature';
+            const branchName = `${branchPrefix}/${response.key}_${utils.branchName(answers.summary)}`;
 
             console.log(chalk.green(`Ticket created ${response.key} successfully`));
             console.log(chalk.yellow('Creating branch...'));
