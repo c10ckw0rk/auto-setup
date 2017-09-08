@@ -1,5 +1,7 @@
+#!/usr/bin/env node
 require('dotenv').config({ path: `${__dirname}/.env` });
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 const jira = require('./lib/jira');
 const clear = require('clear');
 const chalk = require('chalk');
@@ -11,7 +13,7 @@ const git = require('./lib/git');
 clear();
 console.log(
     chalk.yellow(
-        figlet.textSync('Massive Pal', { horizontalLayout: 'default' })
+        figlet.textSync('Pal', { horizontalLayout: 'default' })
     )
 );
 
