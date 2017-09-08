@@ -20,7 +20,7 @@ const questions = [
         name: 'assignee',
         type: 'input',
         message: 'Whose the assignee?',
-        default: 'daniel.peterson',
+        default: process.env.USERNAME,
         validate: function (value) {
             if (value.length) {
                 return true;
@@ -28,8 +28,7 @@ const questions = [
                 return 'Enter the name of the assignee';
             }
         }
-    },
-    {
+    }, {
         name: 'summary',
         type: 'input',
         message: 'Whats the title?',
@@ -41,15 +40,13 @@ const questions = [
                 return 'Enter the title';
             }
         }
-    },
-    {
+    }, {
         name: 'type',
         type: 'list',
         default: 1,
         message: 'What type of ticket are you making?',
         choices: ['Story', 'Bug']
-    },
-    {
+    }, {
         name: 'desc',
         type: 'input',
         default: '',
