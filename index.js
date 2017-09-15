@@ -13,7 +13,7 @@ const git = require('./lib/git');
 clear();
 console.log(
     chalk.yellow(
-        figlet.textSync('Pal', { horizontalLayout: 'default' })
+        figlet.textSync('Gadgy', { horizontalLayout: 'default' })
     )
 );
 

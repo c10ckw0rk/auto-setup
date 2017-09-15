@@ -1,11 +1,8 @@
 {
-	"name": "auto-setup",
+	"name": "Gadgy",
 	"version": "1.0.0",
-	"description": "",
+	"description": "Jira and Git cli intergration",
 	"main": "index.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
@@ -17,6 +14,6 @@
 		"inquirer": "^3.2.3"
 	},
 	"bin": {
-		"pal": "index.js"
+		"gadgy": "index.js"
 	}
 }
