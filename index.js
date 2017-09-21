@@ -1,12 +1,13 @@
 require('dotenv').config({ path: `${__dirname}/.env` });
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-const jira = require('./lib/jira');
+
 const clear = require('clear');
-const chalk = require('chalk');
 const figlet = require('figlet');
 const inquirer = require('inquirer');
-const utils = require('./lib/utils');
-const git = require('./lib/git');
+const chalk = require('chalk');
+const ticket = require('./questions/jira-ticket');
+const branch = require('./questions/branch');
+const pullRequest = require('./questions/pull-request');
 
 clear();
 console.log(
@@ -15,64 +16,28 @@ console.log(
     )
 );
 
-const questions = [
-    {
-        name: 'assignee',
-        type: 'input',
-        message: 'Whose the assignee?',
-        default: 'daniel.peterson',
-        validate: function (value) {
-            if (value.length) {
-                return true;
-            } else {
-                return 'Enter the name of the assignee';
-            }
-        }
-    },
-    {
-        name: 'summary',
-        type: 'input',
-        message: 'Whats the title?',
-        default: 'Test Ticket',
-        validate: function (value) {
-            if (value.length) {
-                return true;
-            } else {
-                return 'Enter the title';
-            }
-        }
-    },
-    {
-        name: 'type',
-        type: 'list',
-        default: 1,
-        message: 'What type of ticket are you making?',
-        choices: ['Story', 'Bug']
-    },
-    {
-        name: 'desc',
-        type: 'input',
-        default: '',
-        message: 'Whats the description?'
-    }
-];
+inquirer.prompt([{
+    name: 'type',
+    type: 'list',
+    default: 0,
+    message: 'What would you like to do today?',
+    choices: [
+        'Ticket',
+        'Pull Request',
+        'Branch'
+    ]
+}]).then(responses => {
 
-inquirer.prompt(questions).then(responses => {
-    jira.create(responses)
-        .then(response => {
+    clear();
 
-            const branchPrefix = responses.type === 'Bug' ? 'fix' : 'feature';
-            const branchName = `${branchPrefix}/${response.key}_${utils.branchName(responses.summary)}`;
+    console.log(chalk.green(`- ${responses.type}`));
 
-            console.log(chalk.green(`Ticket created ${response.key} successfully`));
-            console.log(chalk.yellow('Creating branch...'));
+    const options = {
+        Ticket: ticket,
+        'Pull Request': pullRequest,
+        Branch: branch
+    }[responses.type];
 
-            git.create(branchName, () => {
-                console.log('Branch ' + chalk.yellow(branchName) + ' Created');
-            })
+    options();
 
-        })
-        .catch(() => {
-            console.log(chalk.red('There was an error creating the ticket'));
-        })
 });
